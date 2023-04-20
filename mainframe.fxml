@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="mainAnchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="832.0" prefWidth="1044.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="COVIDController">
+   <children>
+      <BorderPane id="mainBorderPane" fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="700.0" minWidth="800.0" prefHeight="700.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <HBox id="header" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="75.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label id="covidTitle" styleClass="textLabel" text="COVID-19 in London">
+                     <font>
+                        <Font name="Arial Bold" size="18.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Label text="From :" />
+                  <DatePicker fx:id="startDatePicker" />
+                  <Label text="To :">
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </Label>
+                  <DatePicker fx:id="endDatePicker" />
+                  <Button id="submitButton" mnemonicParsing="false" onAction="#handleDateSelection" text="Submit">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </top>
+         <center>
+            <StackPane id="bodyPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" prefHeight="532.0" prefWidth="813.0" BorderPane.alignment="CENTER">
+               <children>
+                  <BorderPane fx:id="welcomePanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+                     <top>
+                        <Text id="welcomeTitle" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textLabel" text="Welcome!" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font size="55.0" />
+                           </font>
+                        </Text>
+                     </top>
+                     <bottom>
+                        <Text fx:id="dateRangeText" strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font size="15.0" />
+                           </font></Text>
+                     </bottom>
+                     <center>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="textLabel" text="This application visualises the impact of COVID-19 in London.">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="To continue, please select dates using the date picker above.">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font></Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Once done selecting dates, click submit to then visualise the data.">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font></Text>
+                           </children>
+                        </VBox>
+                     </center>
+                  </BorderPane>
+                  <HBox fx:id="statisticPanel" alignment="CENTER" prefWidth="813.0" visible="false">
+                     <children>
+                        <Button fx:id="subLeftButton" mnemonicParsing="false" onAction="#subleftArrowClick" prefHeight="203.0" styleClass="subPanelButton" text="◀" />
+                        <StackPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity">
+                           <children>
+                              <BorderPane fx:id="workplacesGMRPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="401.0" prefWidth="550.0">
+                                 <top>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Average Workplaces GMR" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Text>
+                                 </top>
+                                 <center>
+                                    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="550.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Text fx:id="workGMRAvgText" layoutX="108.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The average workplaces GMR value over the selected period is XX." wrappingWidth="333.67578125">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fx:id="workGMRTotalText" layoutX="108.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cumulative sum: YY" wrappingWidth="333.67578125">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fx:id="workGMRDenomText" layoutX="89.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of entries: ZZ" wrappingWidth="333.67578125">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fx:id="workGMRCalcText" layoutX="153.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calculation: YY / ZZ = XX" wrappingWidth="333.67578125">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </AnchorPane>
+                                 </center>
+                              </BorderPane>
+                              <BorderPane fx:id="parksGMRPanel" layoutX="35.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="401.0" prefWidth="550.0" visible="false">
+                                 <center>
+                                    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="550.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Text fx:id="parkGMRAvgText" layoutX="108.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The average parks GMR value over the selected period is XX." wrappingWidth="333.67578125">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fx:id="parkGMRTotalText" layoutX="108.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cumulative sum: YY" wrappingWidth="333.67578125">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fx:id="parkGMRDenomText" layoutX="89.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of entries: ZZ" wrappingWidth="333.67578125">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+                                          <Text fx:id="parkGMRCalcText" layoutX="153.0" layoutY="286.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Calculation: YY / ZZ = XX" wrappingWidth="333.67578125">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </AnchorPane>
+                                 </center>
+                                 <top>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Average Parks GMR" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Text>
+                                 </top>
+                              </BorderPane>
+                              <BorderPane fx:id="totalDeathsPanel" layoutX="10.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="401.0" prefWidth="550.0" visible="false">
+                                 <center>
+                                    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="550.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Text fx:id="totalDeathText" layoutX="108.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The total number of COVID deaths over the selected period was XX over YY days." wrappingWidth="333.67578125">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </AnchorPane>
+                                 </center>
+                                 <top>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total Deaths Over the Period" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Text>
+                                 </top>
+                              </BorderPane>
+                              <BorderPane fx:id="avgTotalCasesPanel" layoutX="10.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="401.0" prefWidth="550.0" visible="false">
+                                 <center>
+                                    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="550.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Text fx:id="avgTotalCasesText" layoutX="108.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The average number of COVID cases per borough at the end of the period is XX." wrappingWidth="333.67578125">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </AnchorPane>
+                                 </center>
+                                 <top>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Average Number of Cases per Borough" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Text>
+                                 </top>
+                              </BorderPane>
+                              <BorderPane fx:id="highestDeathPanel" layoutX="10.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="401.0" prefWidth="550.0" visible="false">
+                                 <center>
+                                    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="550.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Text fx:id="highestDeathText" layoutX="108.0" layoutY="160.0" strokeType="OUTSIDE" strokeWidth="0.0" text="The date with the highest number of total COVID deaths in the period is XX, the last selected day." wrappingWidth="333.67578125">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Text>
+                                       </children>
+                                    </AnchorPane>
+                                 </center>
+                                 <top>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Date with the Highest Total Deaths" BorderPane.alignment="CENTER">
+                                       <font>
+                                          <Font size="25.0" />
+                                       </font>
+                                    </Text>
+                                 </top>
+                              </BorderPane>
+                           </children>
+                        </StackPane>
+                        <Button fx:id="subrightbutton" mnemonicParsing="false" onAction="#subrightArrowClick" prefHeight="203.0" styleClass="subPanelButton" text="▶" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="mapPanel" alignment="CENTER" prefHeight="100.0" visible="false">
+                     <children>
+                        <AnchorPane fx:id="mapSVGPanel" maxWidth="1.7976931348623157E308" prefWidth="531.0">
+                           <children>
+                              <SVGPath id="Hillingdon" content="M85.5 26.5H90.5L91.5 27.5L92.5 32.5L93.5 43.5L98 51.5L99.5 56.5L102.5 61.5L103.5 71.5L111.5 93.5L116.5 110.5L111.5 114.5L101.5 119.5L98 121.5L101.5 127.5L92.5 128.5L90 129L86.5 130.5L83.5 131.5H79.5V135.5L86.5 141.5L96.5 143.5L104.5 145.5L111.5 147.5L118.5 148.5V154.5L116 159L113.5 163.5L107.5 169.5L105.5 175.5L104.5 179.5L103.5 180.5L100.5 182.5L98 183.5L95.5 185.5L93.5 188.5L90.5 189.5L89.5 192L88.5 197.5L87.5 207.5L86.5 209.5L85.5 212.5L83.5 215.5V219.5L85.5 223.5V229.5L88.5 234.5L82.5 237.5L69.5 246.5L68.5 248.5L67.5 250.5L66.5 253.5H62.5L61.5 255.5L60.5 258.5H56.5L54.5 257.5L52.5 257L51 255.5H48.5L45.5 253.5L36.5 252.5L33.5 251.5L32.5 250.5L32 247.5H19.5L18.5 246.5L15.5 245.5L14.5 244L11.5 240.5L8.5 239.5L8 238.5H3.5L3 239.5H0.5V238.5L3.5 235.5L4.5 232.5L5.5 227L6.5 221L7.5 218.5L9.5 215.5L10.5 213.5V212.5V210L11.5 208.5L12.5 207.5L13.5 205.5L14.5 203.5H16.5L17.5 202.5L18.5 200L19.5 197.5L18.5 194L21.5 192L22.5 188.5L23.5 183.5L24.5 181.5L23.5 179.5L20.5 176.5L18.5 174.5L17.5 170.5L15.5 168.5V166.5L17.5 164.5V155.5L16.5 154L17.5 153L18.5 150L17.5 148.5L16.5 144.5V142.5L12.5 137.5V135.5L13.5 133.5L14.5 132.5L15.5 129.5L16.5 126.5L18.5 124L19.5 120.5L21.5 118.5L24 117.5L26.5 113.5L28.5 112.5V104.5L25.5 103.5L23.5 100.5L22.5 97.5L21.5 94.5V88.5L20.5 87.5V85L21.5 82.5L16.5 79V73.5L11.5 69.5L10.5 64.5L7.5 58.5L6.5 52.5L5.5 46.5L9.5 46L8.5 41.5L7.5 36.5V27L9.5 23.5V18.5L5.5 15V13L7.5 10V7.79039L5.5 5.5V3.5L7.5 1.5L11.5 3.5L14.5 7.5L23.5 14.5L30.5 21.5L43.5 29.5H44.5L51.5 24.5L52.5 23.5L54.5 18.5L58.5 17.5H60.5L62.5 18.5L65.5 19.5L68 20.5L71.5 21.5L80.5 22.5L85.5 26.5Z" fill="WHITE" layoutX="86.0" layoutY="116.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Harrow" content="M77.5 1.5L87 6.5L86.5 11.5L121.5 57.5L117.5 60L113.5 62.5L107.5 64L105.5 65.5L101.5 66.5V68.5L106.5 71.5L108.5 75.5V78.5H104.5L98.5 77.5L95.5 76.5H89.5L86.5 78L76 86.5L72.5 88.5L68.5 90L73.5 103.5L66.5 106.5V108.5L67.5 110V113.5L66.5 114.5L62.5 120.5H55.5L51.5 117.5L38.5 121.5L37.5 123.5L26.5 127.5L25.5 126.5L21.5 115.5L19.5 107.5L17.5 103.5L16.5 99.5L14.5 93L12.5 88.5L11.5 78.5L7.5 71.5L6.5 66.5L1.5 58.5V50.5L0.5 47.5V43.5L4 42.5L7.5 40.5L16.5 38.5L19.5 36.5L25.5 34.5L31.5 31.5L35.5 29L38.5 24.5L42 23.5L45.5 22.5L49 22L56.5 16.5L58.5 17.5L64.5 10.5L69.5 6.5L74.5 5.5L77.5 1.5Z" fill="WHITE" layoutX="161.0" layoutY="115.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Barnet" content="M91 166L87.5 168L70 145H57V149.5H55L50.5 145L52 143L49.5 136.5L50.5 130.5L55 126.5L1.5 57.5L3 51.5L10.5 53L17 51.5L24 48.5H30V43L39.5 38.5L44.5 43L50.5 22.5L70 16.5L73 20L89 11.5L86.5 6H89L91 3.5L93.5 4.5V0.5H97V3.5H100.5L99.5 7.5L104.5 9L108.5 3H111.5L108.5 11.5L138.5 22.5L140 36L144 40.5H146.5L153 48.5L161.5 56L158 61.5L156.5 69.5L148.5 79.5L153 86.5L150.5 88.5L148.5 92.5L150.5 96.5L148.5 98.5V102L142.5 105.5L138.5 94L133 105.5L134.5 112.5V118.5L137 122.5L133 124L130 127.5L128.5 135.5H126.5V141L123.5 143V146.5L118.5 145L108.5 153V158L102.5 159.5V162L100 166L95.5 168L91 166Z" fill="WHITE" layoutX="227.0" layoutY="73.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Enfield" content="M4 35.5L1.5 43.5L30.5 54.5L31.5 60.5L32 62.5L32.5 68L34 70L35.5 72L38.5 72.5L45 80.5L54 88.5L50 95.5L48.5 103L40.5 113L44.5 118L45.5 119L48 118.5L52 119.5L57 120.5L59.5 121H78.5L82 120H88L91 120.5H101.5L103 119.5H121.5L132 122.5L138 118L137 117V112L146 99.5L156.5 76V52L159 43.5L156.5 40.5V14H145L140.5 12.5H127L122.5 10.5L119.5 12.5H109.5L92.5 3H79.5L73 1H68L59 5.5L43 6L34.5 10.5H28.5L19.5 7V16L12.5 29L9 30L4 35.5Z" fill="WHITE" layoutX="315.0" layoutY="51.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Haringey" content="M30 1L26.5 2L24.5 3.5L23 6.5L25 11L23 13L22.5 17L14.5 21.5L11.5 10.5L7.5 19L9 26.5V32.5L11.5 37L9.5 38L7 39L4.5 42L3.5 46.5L2.5 51H1V54.5H9L10 55.5H17.5L25.5 59L33 52.5H35L36 51.5H40L42.5 49.5H45.5L50.5 55L51 57L59 64.5L65.5 57L65 52L70.5 51.5L75 50.5L78.5 49.5L89.5 48.5L92.5 47.5L96.5 45.5V41.5L101 37.5L104.5 31L103.5 30V25.5L104.5 21.5L106 18L113.5 5.5L107.5 3.5L103 2L85 2.5L83.5 3H72.5L71 2.5H64L61 3.5H41L38 3L30 1Z" fill="WHITE" layoutX="334.0" layoutY="153.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Brent" content="M53.5 4.5L59.5 1L76.5 22.5L72 26L71.5 33L73.5 38.5L71.5 41L77 47H82V42.5H92.5L130.5 91.5L129.5 94.5V97.5L128.5 99.5L127.5 101.5L126.5 102.5L125.5 99.5L122.5 96.5H115.5L113.5 97.5L109.5 98.5L108.5 101.5H105L102.5 100.5L96.5 99.5L93.5 97.5H90.5H82.5L79.5 95.5H73.5L73 94.5H69.5L62.5 101.5L57 102.5L52.5 103.5H46.5L43.5 100.5L46 99H52L53 97.5V94.5L48.5 89.5L44.5 92.5L40.5 94.5H36.5L31.5 98.5H27.5V97.5L28.5 96.5V87.5L26.5 85.5L25.5 79.5L21.5 75.5L16.5 71.5L7.5 66.5L3.5 65.5L0.5 64.5V63.5L4.5 57.5L6 56V51L5 49.5L12 46L7.5 33L14 30L21 24L27 20H32L35 21L41.5 22H47V17L44.5 12.5L41 10L45.5 7.5L50.5 6.5L53.5 4.5Z" fill="WHITE" layoutX="212.0" layoutY="164.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Ealing" content="M28.5 94.5L13.5 88.5V88L15 87L16 85L18 83L22 81.5L26 78L28.5 69L35 62.5L40 53V45.5L31.5 44L7.5 38.5L1 33V31L10.5 28.5L24 26.5L20 20L23.5 18L32.5 13.5L37.5 9.5L39.5 11.5L51.5 7L52.5 5.5L54.5 4.5L64 1.5L68 4L75 5L82.5 7.5L91.5 12.5L99.5 19.5L101 26L103 28V35.5L102 36.5V40H107.5L113 36H116.5L124 31.5L127.5 35V37.5H122L117.5 40.5L121.5 45H129L139 43L146 36H148V37L156 37.5V40.5L154.5 42.5L152 48.5V53L153 55.5L154 62.5L156.5 67.5L158.5 74.5L157.5 77.5L150.5 78.5L151.5 81.5V87.5L150.5 90.5L149.5 92.5L144.5 93.5H136.5L135.5 91.5L130.5 86.5L129.5 84.5L128.5 82.5L127.5 81.5L123.5 84.5H119.5L118.5 83.5H115.5L109 87V89L111.5 93.5H109.5L105.5 91.5L104.5 94.5L99.5 97.5L95.5 92.5L92.5 94.5L91 93.5H86.5H83.5H82.5L81 92.5H71.5L65.5 88.5H63.5L58.5 90.5L52.5 93.5L51.5 95.5L46.5 100.5H44.5L42.5 96.5L39.5 92.5L34.5 95.5H30.5L28.5 94.5Z" fill="WHITE" layoutX="148.0" layoutY="213.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Hounslow" content="M190.5 25.5L194 19.5V12L195 7L193 8H190.5L188 3.5V6L185 12L180 13H170.5L169 10L164 4.5L162.5 1.5L159.5 4H154L153 3H151L145.5 5.5V7L149 13H145L141.5 11.5L141 13.5L134.5 17.5L130 12.5L127.5 14L125.5 13H117L115.5 12H106L100 8H98.5L88.5 12.5L88 14L82 20H78.5L76.5 15.5L74 12.5L70 15H65.5L47 7H46L44 23L42 28.5L40 31.5V35L42 38.5V45L45.5 51L33.5 58.5L26.5 63L25 65L24 66.5L23 71H18.5L18 73L17 76H11.5L8 75L6.5 74L2.5 72.5V76L0.5 77.5V81.5H4.5V90.5L6.5 91L5.5 95V96.5H8.5L13.5 94.5H14.5L13.5 99.5V101.5H20.5V107.5L21.5 108.5L24.5 109.5H30.5L31.5 107.5L35 106.5L36.5 105.5H40L42.5 107.5L44.5 109.5L45 111.5L47.5 113.5L48.5 114.5L49.5 117.5L51.5 118.5H53.5L54.5 117H64.5L69.5 120.5V118L66.5 112.5V109.5L75.5 101V98.5L84.5 91.5L82.5 89.5H80L76.5 90.5L74 89L73.5 87.5L70.5 86.5L68.5 85L66.5 81V78.5H70.5L79.5 67.5H84L90.5 66.5L93.5 65.5H97.5L99.5 67.5H103.5L104 66.5L107.5 65.5L110.5 63.5V67.5L112.5 69.5H116.5L117 66.5L119.5 65.5L121.5 66.5V60.5L122.5 57.5L125.5 54.5V47.5L127.5 46.5L129 45.5L132.5 43.5L139.5 38.5L140.5 35.5L141 34L143.5 31.5V30.5V29L145.5 26.5L151.5 22.5L156 21.5L159.5 22.5L161.5 23L167.5 29L168.5 31.5L169.5 34.5L171 38.5L177.5 44.5H184.5L185.5 43.5L188.5 40L189.5 36.5V28.5L190.5 25.5Z" fill="WHITE" layoutX="116.0" layoutY="278.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Richmond Upon Thames" content="M3.5 107.5V103.5L4.5 103V99L2 93.5V91.5L11 83V80.5L20.5 72.5L17 69H14L10.5 70L9.5 69.5L8.5 67.5L4 65.5L1.5 61H5L14 50H18.5L27.5 48H31L32.5 50H38L39 49L43 47V50L46 52H51.5L52 49L53.5 48L56 50L57 48L58 39L60.5 38L61 39.5L68 45.5L71 47.5L76 52.5L76.5 56L71.5 60.5L65.5 63.5H59.5L53.5 68L52.5 70.5V75.5L53.5 76.5L54.5 79.5L55 83L56.5 84.5L57.5 86.5L59 87.5L60.5 88.5L64.5 89.5L65.5 88.5L64.5 87.5L60.5 86.5L56.5 82L56 77L54.5 75L54 70.5L58 67.5L62.5 65.5L67 64.5L75.5 61L78.5 57V53.5L73.5 45.5L69.5 43.5L62.5 36.5L63.5 29L71 25L75.5 20.5L76.5 18.5L77.5 16.5L79 13.5L80.5 12.5L82 9.5L84.5 7.5L86 6.5L88 5.5H92.5L99.5 11.5L100.5 13.5L101.5 16.5L102.5 19.5L103.5 21.5L108.5 26.5L110.5 27.5L112.5 28.5H118L119.5 27.5L124.5 22.5L125.5 20.5L126.5 19.5V8.5L133 1.5L135.5 0.5H138.5L140.5 1.5L144.5 5.5L145.5 8.5L146.5 19.5L148.5 23.5V25.5L145.5 24.5L143.5 23.5H140.5L139.5 35.5L134.5 34.5H123L118.5 40.5V44.5L117 50.5L125 56.5L129 60.5L132.5 65.5V68.5L114.5 81.5L107.5 87.5L104.5 91.5L101.5 95.5L97.5 99.5L94.5 100.5L93.5 98.5L92.5 95.5L91.5 93L90.5 88.5H87.5L86.5 91.5L81 86H74.5L71.5 83L68.5 88L67.5 90L74.5 96.5L75.5 98.5V101L74.5 105L73.5 107.192V130L65.5 141L63.5 142.5L61 144H58.5L48.5 131.5L47 129.5L45 127L42.5 125.5L38.5 122.5L34.5 119.5L32.5 117.5L30.5 115.5L28.5 114.5H25.5L22.5 115.5L15.5 119.5L12.5 120.5H7.5L6.5 117.5H1.5L0.5 115.5V112.5H4.5L3.5 107.5Z" fill="WHITE" layoutX="173.0" layoutY="291.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Hammersmith And Fulham" content="M4.5 5.5L7.5 1.5L8 1H18L22 3.5L23.5 7L24 14.5L22 16L29.5 28L30 30.5L31.5 33L34 33.5L35 35.5L33 37V39L36.5 46.5L47 57L48 60.5L52 65L54 66L65 80H66.5L68.5 79V82.5L67.5 86.5L66.5 89.5L65.5 91.5L63.5 94.5L59.5 96.5H48.5L40.5 93.5L38.5 92.5L31.5 84.5L30.5 82.5L29.5 79.5V72.5L23.5 62.5L21.5 60.5H15.5L9.5 62.5V56.5L10.5 49.5H8.5L6.5 50.5H5.5L4.5 48.5L2.5 45.5L1.5 41.5L8.5 40.5L9 37.5L8.5 34.5L7.5 30.5L4.5 24L3.5 17L2.5 14.5V10.5L3.5 9L4.5 5.5Z" fill="WHITE" layoutX="278.0" layoutY="244.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Kensington And Chelsea" content="M2 4L1 1H4.5L6 2H11V5L19 6L24.5 12.5H23V14.5L25 19L26.5 23H30.5L32 29H36.5L40 41L44 41.5L45.5 47H46.5L59 45L64 40.5V44.5L67 48.5V58L71.5 62.5L70.5 63.5L66.5 64.5L63 65.5L58.5 66.5L54.5 67.5L51.5 68L48.5 69.5L46.5 73.5L43.5 75.5H42.5L41.5 73.5L31.5 61.5L29.5 60.5L26.5 57L25.5 54.5L24.5 52.5L14.5 42.5L13.5 40.5L11.5 36.5V35L13.5 32.5L12.5 30.5L11.5 29.5L9.5 28.5L8.5 26.5L8 24L1 13.5L2.5 12L2 4Z" fill="WHITE" layoutX="296.0" layoutY="249.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Westminster" content="M89.5 41.5L93.5 40.5V34.5L92.5 33.5L88 36H85.5L84.5 35.5L80.5 39L77.5 36.5L76.5 32.5L74.5 32L70.5 29.5L65 22.5L61.5 21L55.5 4H49.5L45.5 6L41 3H36.5L36 1H31L24 9L21.5 6.5L21 12L18 18H15L14 14L11.5 12H6.5L4.5 12.5L0.5 14V18.5L7.5 19.5L13.5 26.5L14.5 28.5H12.5V30L14.5 33.5L15.5 36.5L19.5 37L20.5 40.5L21.5 42.5H25.5L26.5 45.5L27.5 48.5L28.5 51.5L29.5 54.5L33.5 55.5L34.5 60.5H35.5L40 59.5L46.5 58.5L52.5 53.5L53.5 58.5L56.5 63V72.5L60.5 76.5L62.5 77.5H66.5L68.5 78.5H72.5L74.5 77.5L77.5 76.5L80.5 72.5L82.5 68.5L83.5 61.5V53.5L84.5 49.5L85.5 46.5L86.5 43.5L89.5 41.5Z" fill="WHITE" layoutX="304.0" layoutY="236.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Camden" content="M22.5 55.5L1 27.5L3 26.5L7.5 28.5L13 26L16 22V19.5L22 18V13L30.5 5.5L37 7.5V3L39.5 1H47.5L49 2H56.5L64.5 5.5V11.5V18L66.5 22L67.5 24.5L74.5 31.5V33.5L77.5 36.5L78.5 39.5L79.5 45.5L82.5 51.5V61.5H86.5L88.5 62.5L89.5 65.5L90.5 66.5V69.5L92.5 71.5L95.5 72.5L97.5 75V78.5H91.5V81.5H90.5L86.5 83.5H84.5L83.5 82.5L79.5 86.5L77.5 84.5L76.5 80.5L73.5 79.5L69.5 76.5L64.5 69.5L61.5 68.5L55.5 51.5H48.5L44.5 53.5L40.5 50.5H36.5L36 48.5H29.5L23.5 55.5H22.5Z" fill="WHITE" layoutX="304.0" layoutY="195.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Islington" content="M8 4L1 10V23L4 29L11 35.5V37.5L14 41.5L16 50.5L19 56V65H22L24.5 67L25.5 69L27 71V74L28 75L32 77L34 79.5V82.5L40.5 78.5V75.5H43.5L44.5 77.5L46.5 78.5L49.5 80.5H51.5V74.5L49.5 72.5L48.5 70.5L43.5 68.5L41.5 64.5L40.5 61.5L49.5 55L50.5 52.5L51.5 47.5L52.5 41.5H58.5L57.5 37.5L55.5 35L48.5 33.5L46.5 31.5L45.5 24.5L43.5 22.5L38 22L33 16.5L24 8L23.5 5.5L19 1H17L14.5 3H11L10 4H8Z" fill="WHITE" layoutX="360.0" layoutY="192.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Hackney" content="M7.5 11.5L1 20L4.5 24.5L10 25L13 28L13.5 34.5L15 36L22.5 38L25 41L26 47H19.5L18 56L17 60L8.5 66.5L10.5 71.5L15 73L17 76L19 78V83.5H20.5L21.5 81.5L25.5 80.5V73.5L29.5 67.5H34.5L35.5 65.5L37.5 64.5V61.5H39.5L40.5 62.5H43.5L46.5 61.5L48.5 59.5H50.5L51.5 60.5H53.5L56.5 58.5L63.5 47.5H66L69.5 49.5L71.5 48.5H78.5V43.5L76.5 40.5V37.5L77.5 36V33.5L72 29L71.5 27L68 24H66L65 25H63L62 24H58L57.5 23.5L57 24H54L51 22.5V19L40 9L37.5 1L30.5 4L25.5 4.5L18.5 5L15.5 6L6.5 7.5L7.5 11.5Z" fill="WHITE" layoutX="386.0" layoutY="189.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Waltham Forest" content="M45 0.5H42V13L31.5 35.5L22.5 48.5V49V51L24 54L23 56L18 60L16 63L9 74L8 77L7 81V84L8 86V86.5L5.5 91.5L4 93.5L0.5 97.5V100.5L1.5 102.5L2.5 105.5L3.5 108.5L14.5 119.5V122.5L16.5 123.5H18.5L19.5 123L20.5 123.5H24.5L25.5 124.5H26.5L27.5 123.5H30.5L34.5 126.5L35.5 129.5L40.5 133.5L41.5 136.5H44.5L46.5 135.5L48.5 136.5L49.5 138.5L58.5 135.5H62.5V137.5L64.5 136.5V134.5L65.5 133.5L69.5 131.5L71.5 133.5L74.5 132.5V130.5L68.5 124.5V116.5L71.5 115.5V111.5L70.5 110.5L71.5 109.5V108L69.5 106.5L70.5 104.5V98.5L68.5 93.5L66.5 88.5L65.5 79.5V67.5L66.5 65.5L69 60.5L72.5 50.5V49L67.5 42.5L62.5 40.5L60.5 39.5L61.5 38.5L65.5 37.5L69.5 32.5L70.5 29.5L71.5 25.5V24.5L74.5 21.5V19.5L75.5 17.5V15.5L74.5 12.5L72.5 7.5L71.5 8.5H66.5L64.5 7.5L53.5 6.5L51.5 4.5L49.5 5.5L45 4V0.5Z" fill="WHITE" layoutX="417.0" layoutY="102.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Redbridge" content="M12.5 1.5L11 6.5L9.5 10.5L6 14.5L2 15.5L7.5 17.5L13 24.5V27L6 43.5V56.5L7 64.5L11 74.5V80L10.5 82L12 84V85L11 86.5L12 88V91.5L9 93.5V100L14 105L14.5 107.5L15.5 105.5L18.5 107.5H24L26.5 106.5H36L33 102V97L41 93.5L49 103L55 104.5L58.5 112.5L59.5 122H65.5L71.5 118L73.5 117.5L75.5 116.5L78.5 115.5L80.5 117.5L81.5 118.5L86.5 114.5L93.5 108.5H96.5L98.5 105.5L97.5 102.5L102.5 101.5L101.5 99.5L102.5 93.5L108 91.5L111.5 87.5L112.5 80.5V79L111 77.5L111.5 73.5L112.5 70.5L114.5 68.5L113.5 67L109.5 66.5V63.5V58.5L111.5 57.5V53.5L125.5 40.5L127.5 39.5V26.5L126.5 21.5L117.5 6H114L107 11L106.5 13.5L101 17.5H100.5L98.5 15.5L90.5 21.5H83.5L81.5 18.5L77 21L79.5 24.5L78.5 26.5L76.5 27.5V31L72.5 34.5L68.5 31.5L67 30.5H64L59.5 34.5L50 31.5L38 22.5L37.5 18.5L39.5 17.5H40.5H42.5V15.5L40.5 14.5L39.5 15.5H36.5L33.5 16.5L30.5 18.5H28.5L12.5 1" fill="WHITE" layoutX="461.0" layoutY="123.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Barking And Dagenham" content="M1.5 90.5L2 84.5H8.5L15.5 80L21 78.5L24 81.5L37 71H40.5L43 67L42.5 64.5L47 63.5L46.5 60V58L47 55.5L52 53.5L55.5 49.5L57 40L56 38.5V37L56.5 33.5L58.5 30.5L58 27L54 26V21.5L56 19.5V15.5L70 2V5.5H73L73.5 14.5V24.5L70 28V36L72 40V44L70 44.2268V46L75.5 48L85 55.5L91 53L94.5 51H104.5V52L103.5 55L105 57.5V62L110.5 68.5L108 71L107.5 74.5L102 80L101.5 86.5L99.5 87L95.5 92.5L94.5 96.5L88.5 105.5L87.5 109L86 118L84.5 122L83.5 127.5H81.5L77 126.5L74.5 125.5L72.5 123.5L69.5 122.5L65.5 119.5L61.5 118.5H59.5L55.5 117.5L52 118.5L39.5 126H31L27.5 123L27 117L24 108.5H17.5L11.5 104L6.5 103.5V99L1.5 90.5Z" fill="WHITE" layoutX="509.0" layoutY="154.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Newham" content="M3.5 23.5V20.5V20H4.5H7.5L9 19.5H10L12 22.5L21 19H24V22L29 19.5V17L32 15.5L34 17L39 15L40 13.5L42.5 15H48.5L50.5 14H61.5V12L58.5 8V4L64.5 1.5L72.5 10.5L78 11.5C79.1667 15 81.5 22.1 81.5 22.5V27C81.5 27.8 81.1667 29.3333 81 30L80 35.5L82.5 40L85.5 44.5L86 50.5H90.5L98.5 55.5H103.5L104.5 60L105.5 62V66.5L107 69.5L104 70.5L102.5 71.5L101 72.5L96.5 76.5L95.5 78L93 83L90.5 87.5L88.5 89.5V91.5L84.5 93.5L81 94.5H71L67.5 93.5H55.5L51.5 94.5L47.5 95.5H43.5L40.5 94.5L31.5 85L30 81.5L24 77.5L25.5 72.5L18.5 66.5L15.5 69L14 66V55L4.5 48L4 45.5L1.5 42L5 35.5V31.5V27L3.5 23.5Z" fill="WHITE" layoutX="444.0" layoutY="201.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Tower Hamlets" content="M4.5 54.5L1.5 52.5L2 50.5L7 49.5L6.5 44L1 37V34L3 32.5V24.5L6 20H11.5L12.5 17.5L15 16V14L16 15H19L23.5 13.5L25.5 11.5L27 12.5L29.5 13L33 11.5L40 0.5H41.5L45 2.5L47.5 1.5L54.5 1V2.5L51.5 8.5L51 10L53.5 13.5L54 16.5L63.5 23.5V30.5L63 34.5L67 39.5L69.5 37L74.5 41L73.5 46L76 48L79.5 50.5H74.5L70.5 51.5L66.5 56.5L64.5 60.5L65.5 64L66.5 67.5L69.5 74.5V78L66.5 81L63.5 82.5H57.5L54.5 82L49.5 75.5L48.5 72L48 56L41.5 50.5L38.5 49.5H31.5L18.5 60H17L14 58.5L8.5 56.5L4.5 54.5Z" fill="WHITE" layoutX="406.0" layoutY="229.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="City Of London" content="M1 10V8H6L15 3V0.5H16L17 2L22 5H27.5L30.5 1.5V5.5L35.5 11.5L36.5 16.5L32.5 17.5L30.5 20.5L23.5 19.5L19 18.5L17 17H2L1 10Z" fill="WHITE" layoutX="384.0" layoutY="261.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Havering" content="M29.5 177.5L24.5 176.5V172.5L26.5 167.5L27.5 161L28.5 156L35 146.5L36 142L39 137.5L42 136.5L42.5 129.5L48.5 124.5V121L51.5 117L46 111V106.5L44.5 103.5L45.5 98H33.5L24 102.5L17 96.5L11 94.5L12.5 93.5V88L10.5 84.5V78.5L13.5 75V53.5L10.5 52.5V50V32L1 15.5H22.5L28 18L36.5 13L38.5 10.5L42.5 13L44.5 11L46.5 13L49 10.5L55 11L60.5 10.5L66.5 8L77.5 1L91.5 13L106.5 22L112.5 31L114.5 34L110.5 37L106.5 44L112.5 46H120.5L122 61L135.5 82.5L140.5 97L161.5 93.5L164 107L166.5 109L168.5 112.5L176 115.5V121.5L179.5 124V130.5H170.5L159 133L147.5 135V139.5L131.5 142.5L119.5 144.5L119 155L120.5 156L119.5 158.5L117.5 159.5V165L114.5 166H110.5L108.5 165V161.5L107.5 157.5V155L106.5 150L104 151L102.5 153V157H99.5L98 158.5V161.5L100.5 163V165H99.5L98 163.5L95 163L93.5 165L96.5 170.5L97 176.5L98.5 179.5L93.5 181.5L88.5 182.5H85.5L84 184L85.5 187.5L87.5 190.5V193L85.5 195H82.5L77.5 196.5L73 199.5L72.5 204L70.5 207.5L62.5 208.5L58.5 211H52.5L50.5 210L47.5 206L46.5 201.5V196.5L43.5 190.5L38.5 182.5L35 181.5L29.5 177.5Z" fill="WHITE" layoutX="553.0" layoutY="106.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Kingston Upon Thames" content="M14.5 69.5L12 65.5L19 53.5V32L21 26L20.5 20.5L13 13.5L15.5 9.5L17.5 11.5H24.5L30.5 17.5L32 14H33.5L37.5 26.5L40 26L44 23.5L47.5 19.5L51.5 14.5L54 11L57 9L67 1.5L68.5 5.69273V7.5L66 11.5L67 14.5L68 21L69 22L70.5 26V32.5L72.5 37L73.5 42L75.5 46V51L74 52V58.5L76.5 62L79.5 64L80.5 66.5L82 71V73L80.5 74.5L77 77.5L76 82L71 85L66 84L62 83L60 87.5L51 95L48.5 99.5L40 107L38 110.5L40 113L36 116.5L33.5 124.5L24 137.5L23 144.5V149.5L7.5 161.5L3 162L2 160L3 158L2 141L4 137.5L1 132.5L2 126.5L8 120L10 114.5L11 97.5L13 93.5L19.5 91L21 85L14.5 72L12 73.5V72L14.5 69.5Z" fill="WHITE" layoutX="225.0" layoutY="351.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Wandsworth" content="M109.5 5L118 1L117.5 3.5L113.5 9.5L111 17L97.5 25.5L96.5 33.5L99 40.5V47L104.5 51L102 55L104 64H111V65L107.5 72L109.5 75.5L112 77V78.5L110 80V94L106.5 98L103 97L97.5 94.5L90.5 91.5L90 94.5L87.5 95.5L77.5 90.5L73 89.5L69.5 87V79L67 77L65.5 79H63.5V76L64.5 69.5L63.5 64.5L43.5 71L40 69.5H28L9 79L7.5 77L6 73L16 66V61L1 46.5L2 38L6 33.5H24L24.5 22L33 24L44.5 33L51 34.5H59L68.5 31L73 24L75 15L77.5 9L82 7.5L85 7L89 6L94 5L97.5 3.5H102.5L109.5 5Z" fill="WHITE" layoutX="271.0" layoutY="298.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Merton" content="M21 73.5L16.5 75.5L14.5 69.5L11.5 67.5L9.5 65V60L11.5 58.5V53.5L9.5 49L6.5 39.5V33L4 27L1.5 18.5L4 15L24 5H35L40 6.5L58 1L59 4L58 14.5L64 14V22.5L68.5 25L73 26L82.5 31H86L88 28L101 34L98.5 37.5L97.5 41.5L102 42L105 41.5H108L110 44L112.5 41.5L115.5 42.5L112.5 45L113.5 53L120 61L115.5 67L110 72L105.5 73.5L102.5 72H99.5L93.5 73.5L88 75.5H84L79 70.5L74.5 68L71.5 73.5L62.5 80L57.5 76.5L51.5 81.5L49.5 77.5L47.5 79L45 76.5H42.5L35 88.5L22 79L21 73.5Z" fill="WHITE" layoutX="274.0" layoutY="352.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Sutton" content="M5 12V8L8 6L9 11.5L23.5 22L31 9H32.5L35.5 12L37 11.5L39 15L45.5 10L50 13.5L61 6L63 1L68.5 5.5L72 8H77L87 4.5H89.5L95.5 6L100.5 3.5L102.5 8L106 19V25L112 33L110.5 39.5L112 41.5L113 46.5L109.5 49.5L113 51.5L116 61L117.5 68L108.5 70L107.5 67L104 70H98.5L92.5 73L93.5 77.5L89.5 79.5L92.5 89L89.5 93.5L92.5 96.5V100L89.5 102L82 103.5L75 99V93.5L69.5 92H66V87.5L48 74L43.5 73L41 77.5L28.5 84.5L31 89L28.5 93.5H24.5L21.5 92L14 84.5L26 73L21.5 61L20 51.5L14 43.5L5 39.5H0.5V17.5L5 12Z" fill="WHITE" layoutX="284.0" layoutY="407.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Croydon" content="M1 152.5L6.5 149.5L14.5 148.5L18.5 146V142L15.5 138L18.5 133.5L15.5 125.5L19.5 123L18.5 119L23.5 117H28.5L31 114.5L32 117L43.5 114L39.5 99L37 94.5L38.5 91L37 84L38.5 78L32 70V64L25.5 47.5L34 36.5L27 28.5L26.5 21.5L29.5 19.5V17L35.5 11.5L37 7.5L43.5 1H57.5L64.5 5.5H71.5L70.5 9.5L78 15V20.5L84 29.5L89 31.5L91 35L94.5 31.5L96.5 31L98.5 32V36L96 40L98 42L102 43.5L107 48L112 49.5V65.5H120L122 63L124 71.5L125.5 78.5L124 80.5L126.5 82.5L134 93.5L137 94.5L140.5 98L142.5 102L147.5 123.5L150.5 129.5L149.5 134.5L139.5 127L135.5 134.5L128 121.5H123L120 123.5L113 121.5L111 128.5H106L101.5 132L104.5 140L101.5 145.5L97 146.5L92 151.5H85.5L84.5 147.5L76.5 150.5L71.5 155.5L74.5 163L67.5 168.5L66.5 177L62 180.5L50.5 189.5L45 192L42 198H36L33 192C31.1667 189.333 27.5 183.8 27.5 183C27.5 182.2 24.1667 180.333 22.5 179.5H11.5L5.5 177C5.83333 175.667 6.5 172.8 6.5 172C6.5 171.2 9.16667 167.333 10.5 165.5H5.5L3.5 158.5L1 152.5Z" fill="WHITE" layoutX="343.0" layoutY="362.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Lambeth" content="M32.353 1H36L38 3.5V10.5L34 19L41 22.5L41.5 26L37 32L40.5 39.5L38 42L45 46.5V50L49 56.5H51L53 55.5L55 66.5L50 73L46 77.5V84.5L51 91.5L52 95L56.5 108L63.5 123.5L67.5 128H61.5H59.5L56 125L53 123.5H46H40.5H37.5L36 125L33.5 128L30 130.5L29.5 134L24.5 139L23.5 140L20 140.5L18.5 139L17 141.5L15.5 140.5H14.5L13 140L10.5 139L9.5 140.5H6.5V139L10 134L14.5 129V125.5V118V115L16.5 114V112V109.5L13 108.5L12 106.5L13 104.5L14.5 102L15.5 99.5V96.5H8.5L7.5 94L7 89L10 84.5L4 80V75L2 70L1.5 66.5L2 60.5L15.5 52.5L18 44L21 40L22.5 36.5V33.5L24.5 30.5L26.5 24L27.5 17L28.5 6.5L32.353 1Z" fill="WHITE" layoutX="355.0" layoutY="266.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Southwark" content="M70.5 5.5L71 20.5H65.5L63.5 24H57L53.5 28L51 32L55 61.5L60 65L61.5 75.5L62.5 80L59.5 83L55 85.5L51 83C50.3333 83.5 48.9 84.6 48.5 85C48 85.5 45 90 45 90.5C45 90.9 44.6667 95.6667 44.5 98L45 103L43.5 107.5L38 110.5L35.5 112L34 115.5L36.5 119.5L35.5 122L34 125.5H32L29.5 123.5L28.5 121L26.5 117L24 112.5L18.5 96L18 92L12.5 84.5V80L16 76L17 73L19.5 70L21.5 67.5V63L20 58.5L18 52.5L16.5 55.5H14.5L12.5 51.5L11.5 46.5L5.5 42.5L8 41L4.5 33L8.5 27L7.5 22.5L1 19L4.5 12.5L5.5 9.5L4.5 4L3 1.5H14.5L17 2.5L21.5 4L28.5 5.5L34.5 8.5L41.5 11.5H50.5L53.5 9.5L59.5 5.5L63.5 1.5L69 2.5L70.5 5.5Z" fill="WHITE" layoutX="384.0" layoutY="267.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Lewisham" content="M36.5 0.5L41.5 9L42.5 9.5V16.5L46 19.5L48.5 20.5L45 23.5L43.5 25L45 27.5L47 29L48.5 30.5L49.5 33.5L54 37L56.5 36.5L57 34.5V32L56 30.5L57.5 30L61.5 30.5L64 31.5H69L75 30L79.5 28.5L80.5 30.5L78.5 31.5L78 35L75 36.5L74.5 41.5V48C74.5 48.5 76.5 51 76.5 51.5C76.5 51.9 77.8333 53 78.5 53.5L82 55L82.5 58.5L80.5 60.5L79 61L79.5 62.5L82 63.5L86.5 65L85.5 66V68.5V72.5L91 74.5H94.5V76.5L91.5 78V82L94.5 81L95 84.5L97.5 87.5H100.5L103 86L103.5 89L104.5 97L102.5 100.5L92.5 91.5L89.5 93.5L84 95L79 100.5L76 102L74.5 107.5L72.5 108H70L69 110.5L66 112.5L64 110.5L61.5 114H57V112.5L53.5 112L50.5 110.5V104.5L42 97L39.5 98.5L34.5 99.5H32L29 102H23.5L23 100.5L19 102H17L14.5 99.5L10 98.5L7 98H4L2 97L1 95V93L2.5 90L5 89L9.5 86.5L11 82L10.5 75.5L12 67.5L16 62.5L20 65L23 64L27 62.5L29.5 58.5L30.5 55L27 52V42.5L22 38.5L20 31L19 20.5V8H21V6L23 4H29.5L31 0.5H36.5Z" fill="WHITE" layoutX="409.0" layoutY="285.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Bromley" content="M83.5 185L80.5 166.5L79.5 159L73.5 136L70.5 129.5L67 126.5L64 125.5L55.5 113V110L51.5 94L48 97.5H42V82L36.5 80L32.5 75.5L27 73L28.5 69V63H24.5L20 65.5L18.5 63C17.1667 62.5 14.5 61.4 14.5 61C14.5 60.6 12.8333 59.5 12 59L8.5 52.5V48.5C8.5 47.7 6.83333 45.5 6 44.5L1 42L3.5 36L5 31.5L7.5 29L17.5 30.5L20 34L26 32.5L27 34H32.5L36.5 30.5L46 29L53 35V40.5L61 45.5H67L68 42L70.5 44.5L73.5 42L74.5 38.5H79.5L81 32.5L85 30.5L89.5 26.5L97.5 24L107 34L110 28L108 14L105.5 15.5H102.5L100.5 14V10.5L97.5 9L100.5 4.5L101.5 1L110 5.5L124 26.5L132 29L141.5 17.5L147 19L154.5 30.5L170 43H183L191 40.5L210 49.5L222 70.5H210L211 87L214.5 93L211 97.5L212.5 101L214.5 105.5L211 108.5L207.5 115.5L210 122.5L200.5 141.5L191 139.5L183 143V148L188.5 159L183 165.5L177.5 166.5L168.5 169.5V175L155.5 182L153.5 193L155.5 198L153.5 200L160.5 211.5L155.5 219.5L142.5 221.5L133 223.5L130 219.5L122.5 216L118 219.5V206.5L108 198L100.5 206.5L96.5 221.5H92L87.5 200L86 193L87.5 186L83.5 185Z" fill="WHITE" layoutX="394.0" layoutY="331.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Greenwich" content="M124.5 3.5L130.5 1.5L131.5 3L134 44.5L135 48.5L132.5 46.5L126.5 55.5L123 51L117 53.5L114 50L110 55.5L105.5 58C104.667 58.8333 102.9 60.7 102.5 61.5C102.1 62.3 99.6667 65.5 98.5 67V75L93.5 78.5L102.5 83L104 97.5L101.5 103.5L96.5 107L95.5 110L94.5 117.5L85 130H83L78.5 128L63 105.5L53.5 100.5V104.5L50.5 105.5L46 104.5L44.5 103.5V99L46 97.5V95H42.5L38.5 93.5L41 91.5V86.5L38.5 85L36.5 84L34.5 81.5L33.5 78.5V70L36.5 68.5V64.5L40 64L38.5 62.5L38 59L31 61L25.5 62H21L19 61H15H12.5L11 62L12.5 64V67H10L7.5 64L6.5 61L3 57.5L5.5 55.5L7.5 51.5L4.5 50H3L0.5 48V42L8.5 45.5H13.5L19 43.5L24 40.5L25.5 35.5V31L24 27.5L22 23V20V15.5L24 13.5H27L31 18.5L37 26.5L42.5 29.5H49.5L57.5 27.5H71.5H81L92.5 25L99.5 20L102 15.5L105 9L107.5 5.5L117 4.5L124.5 3.5Z" fill="WHITE" layoutX="440.0" layoutY="257.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                              <SVGPath id="Bexley" content="M41.5 45.5L39 3L41.5 0.5H47.5L53 4L59.5 7.5L65 9.5L74 11L81 13L86 22.5V34.5C86.8333 36 89 39.3 91 40.5C93 41.7 95.1667 43.6667 96 44.5L103.5 46.5H113.5L122 41.5L127 45.5V49.5L122 52V56.5L119.5 59L122 62.5V72L116.5 78.5L115.5 83L113.5 87H107.5L106 91.5H102.5L101 96L92 102L88.5 101L83.5 111.5V118.5L81 121.5L74 118.5L72 124V132L70 134.5L73 139H70L69 144L68 147.5H72V151H67L54.5 144L50 142.5L41.5 145.5H31L16 133.5L7.5 121.5L1 120L2 118.5V114L4 110L7.5 107.5L10 104.5L12 99.5L10 84L3 80L6 78.5V73V70L7.5 68L9 65.5L12 64L15 60H18L20 55.5L22.5 58L29 55.5L32.5 60L39 51L43.5 53.5L41.5 45.5Z" fill="WHITE" layoutX="517.0" layoutY="253.0" scaleX="0.8" scaleY="0.8" stroke="BLACK" styleClass="SVG" />
+                           </children>
+                        </AnchorPane>
+                        <VBox alignment="CENTER" prefHeight="657.0" prefWidth="100.0">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Total deaths / borough" textAlignment="CENTER" wrappingWidth="71.376953125">
+                                 <VBox.margin>
+                                    <Insets bottom="20.0" />
+                                 </VBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Text>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="1250">
+                                 <VBox.margin>
+                                    <Insets bottom="15.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" height="213.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" width="33.0">
+                                 <fill>
+                                    <LinearGradient endX="1.0" endY="1.0">
+                                       <stops>
+                                          <Stop>
+                                             <color>
+                                                <Color red="1.0" />
+                                             </color>
+                                          </Stop>
+                                          <Stop offset="1.0">
+                                             <color>
+                                                <Color red="1.0" green="1.0" blue="1.0" />
+                                             </color>
+                                          </Stop>
+                                       </stops>
+                                    </LinearGradient>
+                                 </fill>
+                              </Rectangle>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="0">
+                                 <VBox.margin>
+                                    <Insets top="15.0" />
+                                 </VBox.margin>
+                              </Text>
+                           </children>
+                           <HBox.margin>
+                              <Insets right="25.0" />
+                           </HBox.margin>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <AnchorPane fx:id="graphPanel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="499.0" prefWidth="737.0" visible="false">
+                     <children>
+                        <LineChart id="caseGraph" fx:id="Linechart" animated="false" createSymbols="false" layoutX="17.0" layoutY="40.0" legendVisible="false" prefHeight="419.0" prefWidth="703.0" title="Number of New Cases per Day">
+                           <xAxis>
+                              <CategoryAxis side="BOTTOM" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis side="LEFT" />
+                           </yAxis>
+                        </LineChart>
+                     </children>
+                  </AnchorPane>
+               </children>
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+            </StackPane>
+         </center>
+         <bottom>
+            <BorderPane id="bottomPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="1.0" minWidth="1.0" prefHeight="100.0" BorderPane.alignment="CENTER">
+               <left>
+                  <AnchorPane prefHeight="109.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button id="leftButton" fx:id="leftButton" disable="true" layoutX="74.0" layoutY="14.0" mnemonicParsing="false" onAction="#leftArrowClick" styleClass="navButton" text="&lt;" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                     </children>
+                  </AnchorPane>
+               </left>
+               <right>
+                  <AnchorPane prefHeight="109.0" prefWidth="155.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Button id="rightButton" fx:id="rightButton" disable="true" layoutX="2.0" layoutY="14.0" mnemonicParsing="false" onAction="#rightArrowClick" prefHeight="25.0" prefWidth="25.0" styleClass="navButton" text="&gt;" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                     </children>
+                  </AnchorPane>
+               </right>
+            </BorderPane>
+         </bottom>
+      </BorderPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=ShowDetailsControllerTest
+comment0.text=\n\ This\ class\ tests\ the\ ShowDetailsController\ class.\n\ It\ tests\ the\ constructor\ and\ the\ initialize\ method.\n\ It\ also\ tests\ the\ setBoroughNameLabel\ method,\ the\ setSelectedDatesLabel\ method,\n\ and\ the\ setTableView\ method.\n\n\ @author\ Rayan\ Popat,\ James\ Coward\ and\ Shicheng\ Li.\n
+comment1.params=
+comment1.target=void\ setUp()
+comment1.text=\n\ This\ method\ is\ called\ before\ each\ test.\n\ It\ creates\ a\ new\ ShowDetailsController\ object.\n\ It\ also\ creates\ a\ new\ ArrayList\ of\ CovidData\ objects,\n\ and\ adds\ three\ test\ CovidData\ objects\ to\ it.\n\n\ @throws\ Exception\n
+comment2.params=
+comment2.target=void\ testSetBoroughNameText()
+comment2.text=\n\ This\ method\ asserts\ that\ the\ borough\ name\ label\ is\ set\ correctly.\n
+comment3.params=
+comment3.target=void\ testSetFilteredData()
+comment3.text=\n\ This\ method\ asserts\ that\ the\ table\ view\ is\ set\ correctly.\n
+comment4.params=
+comment4.target=void\ testPopulateTable()
+comment4.text=\n\ This\ method\ asserts\ that\ the\ table\ view\ is\ populated\ correctly.\n
+numComments=5

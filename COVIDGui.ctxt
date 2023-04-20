@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=COVIDGui
+comment0.text=\n\ This\ class\ is\ the\ main\ class\ of\ the\ application.\n\ It\ loads\ the\ mainframe.fxml\ file\ and\ sets\ the\ scene.\n\n\ @author\ Rayan\ Popat,\ James\ Coward\ and\ Shicheng\ Li.\n
+comment1.params=stage
+comment1.target=void\ start(javafx.stage.Stage)
+comment2.params=args
+comment2.target=void\ main(java.lang.String[])
+comment2.text=\n\ This\ method\ is\ the\ main\ method\ of\ the\ application.\n\ It\ just\ calls\ the\ launch\ method,\ which\ launches\ the\ application.\n\ @param\ args\n
+numComments=3
